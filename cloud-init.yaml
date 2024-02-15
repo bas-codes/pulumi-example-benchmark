@@ -1,0 +1,22 @@
+#cloud-config
+write_files:
+  - path: /root/benchmark.sh
+    owner: root:root
+    permissions: '0744'
+    content: |
+      #!/usr/bin/env sh
+
+      curl -sL yabs.sh | bash -s -- -j -g
+apt:
+  conf: |
+    APT::Install-Recommends "0";
+    APT::Install-Suggests "0";
+    APT::Get::Assume-Yes "true";
+    Debug::Acquire::http "true";
+    Debug::Acquire::https "true";
+    Debug::pkgAcquire::Worker "1";
+package_update: true
+package_upgrade: true
+packages:
+  - ca-certificates
+  - curl
